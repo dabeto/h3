@@ -56,8 +56,8 @@
 
 #else
 
-#error \
-    "This platform does not support stack array allocation, please submit an issue on https://github.com/uber/h3 to report this error"
+
+
 
 #endif
 
