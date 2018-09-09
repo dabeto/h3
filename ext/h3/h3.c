@@ -70,9 +70,13 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
-static VALUE
-geo_to_h3(VALUE self, VALUE latlon) {
-  printf("%" PRIx64 "\n", latlon);
+static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
+  GeoCoord location;
+  location.lat = degsToRads(rb_ary_entry(latlonRes, 0));
+  location.lon = degsToRads(rb_ary_entry(latlonRes, 1));
+  int resolution = rb_ary_entry(latlonRes, 2);
+  H3Index indexed = geoToH3(&location, resolution);
+  return indexed
 }
 
 void
