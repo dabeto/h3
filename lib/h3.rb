@@ -1,4 +1,4 @@
 class H3
   VERSION = "1.0"
 end
-require "./vendor/h3/ext/h3/h3"
+require "h3/h3"
