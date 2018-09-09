@@ -71,12 +71,20 @@ my_malloc_release(VALUE self) {
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
+  printf("hola: ");
+  printf("Float value is %f \n", rb_num2dbl(rb_ary_entry(latlonRes, 0)));
   GeoCoord location;
-  location.lat = degsToRads(rb_ary_entry(latlonRes, 0));
-  location.lon = degsToRads(rb_ary_entry(latlonRes, 1));
-  int resolution = rb_ary_entry(latlonRes, 2);
-  H3Index indexed = geoToH3(&location, resolution);
-  return indexed
+  location.lat = degsToRads(rb_num2dbl(rb_ary_entry(latlonRes, 0)));
+  location.lon = degsToRads(rb_num2dbl(rb_ary_entry(latlonRes, 1)));
+
+  H3Index indexed = geoToH3(&location, NUM2INT(rb_ary_entry(latlonRes, 2)));
+  printf("%" PRIx64 "\n", indexed);
+
+  char str[20];
+  sprintf(str, "%" PRIx64, indexed);
+  printf("String is %s \n" , str);
+
+  return rb_str_new2(str);
 }
 
 void
