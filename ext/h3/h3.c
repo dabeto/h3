@@ -70,6 +70,11 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
+static VALUE
+geo_to_h3(VALUE self, VALUE latlon) {
+  printf("%" PRIx64 "\n", latlon);
+}
+
 void
 Init_h3(void) {
   VALUE cMyMalloc;
@@ -79,4 +84,5 @@ Init_h3(void) {
   rb_define_alloc_func(cMyMalloc, my_malloc_alloc);
   rb_define_method(cMyMalloc, "initialize", my_malloc_init, 1);
   rb_define_method(cMyMalloc, "free", my_malloc_release, 0);
+  rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
 }
