@@ -1,5 +1,5 @@
 #include <ruby.h>
-#include <h3/h3api.h>
+#include <h3api.h>
 #include <inttypes.h>
 #include <stdio.h>
 
