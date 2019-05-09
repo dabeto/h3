@@ -70,6 +70,16 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
+static VALUE neighbors(VALUE h3, VALUE k){
+    H3Index indexed = h3;
+    int maxNeighboring = maxKringSize(k);
+      H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
+      kRing(indexed, k, neighboring);
+
+    VALUE r_array = rb_ary_new2(sizeof(H3Index));
+    return neighboring;
+}
+
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
   GeoCoord location;
   location.lat = degsToRads(rb_num2dbl(rb_ary_entry(latlonRes, 0)));
@@ -123,4 +133,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 1);
 }
