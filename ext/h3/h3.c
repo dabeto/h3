@@ -147,5 +147,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
-  rb_define_method(cMyMalloc, "neighbors", neighbors, 1);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
 }
