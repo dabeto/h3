@@ -78,12 +78,13 @@ static VALUE neighbors(VALUE self){
       int maxNeighboring = maxKringSize(k);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
-
+      VALUE r_array = rb_ary_new2(maxNeighboring);
       printf("Neighbors:\n");
       for (int i = 0; i < maxNeighboring; i++) {
           // Some indexes may be 0 to indicate fewer than the maximum
           // number of indexes.
           if (neighboring[i] != 0) {
+            rb_ary_push(r_array, neighboring[i]);
               printf("%" PRIx64 "\n", neighboring[i]);
           }
       }
