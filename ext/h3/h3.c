@@ -91,7 +91,7 @@ static VALUE neighbors(VALUE self){
 
       free(neighboring);
 
-      return self;
+      return r_array;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
