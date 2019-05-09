@@ -70,10 +70,9 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
-static VALUE neighbors(VALUE self){
+static VALUE neighbors(VALUE self, VALUE k){
     H3Index indexed = 0x8a2a1072b59ffffL;
       // Distance away from the origin to find:
-      int k = 2;
 
       int maxNeighboring = maxKringSize(k);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
@@ -149,5 +148,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
-  rb_define_method(cMyMalloc, "neighbors", neighbors, 0);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 1);
 }
