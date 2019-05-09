@@ -77,8 +77,9 @@ static VALUE neighbors(VALUE h3, VALUE k){
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
 
-    VALUE r_array = rb_ary_new2(sizeof(H3Index));
-    return neighboring;
+    //VALUE r_array = rb_ary_new2(sizeof(H3Index));
+    //return neighboring;
+    return "test";
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
