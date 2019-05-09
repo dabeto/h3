@@ -70,7 +70,7 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
-static VALUE neighbors(self){
+static VALUE neighbors(VALUE self){
     H3Index indexed = 0x8a2a1072b59ffffL;
       // Distance away from the origin to find:
       int k = 2;
