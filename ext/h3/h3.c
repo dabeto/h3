@@ -70,10 +70,12 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
-static VALUE neighbors(VALUE self, VALUE k){
-    H3Index indexed = 0x8a2a1072b59ffffL;
+static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
+    VALUE h3ToString = rb_String(h3);
+      char *String2CStr = StringValueCStr(h3ToString);
+      H3Index indexed = stringToH3(String2CStr);
       // Distance away from the origin to find:
-
+      int max = k;
       int maxNeighboring = maxKringSize(k);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
@@ -148,5 +150,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
-  rb_define_method(cMyMalloc, "neighbors", neighbors, 1);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
 }
