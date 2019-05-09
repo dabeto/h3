@@ -71,11 +71,25 @@ my_malloc_release(VALUE self) {
 }
 
 static VALUE neighbors(VALUE h3, VALUE k){
-    VALUE h3ToString = rb_String(h3);
-    H3Index indexed = h3;
-    int maxNeighboring = maxKringSize(k);
+    H3Index indexed = 0x8a2a1072b59ffffL;
+      // Distance away from the origin to find:
+      int k = 2;
+
+      int maxNeighboring = maxKringSize(k);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
+
+      printf("Neighbors:\n");
+      for (int i = 0; i < maxNeighboring; i++) {
+          // Some indexes may be 0 to indicate fewer than the maximum
+          // number of indexes.
+          if (neighboring[i] != 0) {
+              printf("%" PRIx64 "\n", neighboring[i]);
+          }
+      }
+
+      free(neighboring);
+
 
     //VALUE r_array = rb_ary_new2(sizeof(H3Index));
     //return neighboring;
