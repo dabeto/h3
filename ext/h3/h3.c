@@ -84,7 +84,7 @@ static VALUE neighbors(VALUE self){
           // Some indexes may be 0 to indicate fewer than the maximum
           // number of indexes.
           if (neighboring[i] != 0) {
-            rb_ary_push(r_array, neighboring[i]);
+            rb_ary_push(r_array, sprintf(str, "%" PRIx64, neighboring[i]));
               printf("%" PRIx64 "\n", neighboring[i]);
           }
       }
