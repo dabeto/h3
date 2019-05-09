@@ -70,7 +70,7 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
-static VALUE neighbors(VALUE h3, VALUE k){
+static VALUE neighbors(self){
     H3Index indexed = 0x8a2a1072b59ffffL;
       // Distance away from the origin to find:
       int k = 2;
@@ -90,10 +90,7 @@ static VALUE neighbors(VALUE h3, VALUE k){
 
       free(neighboring);
 
-
-    //VALUE r_array = rb_ary_new2(sizeof(H3Index));
-    //return neighboring;
-    return "test";
+      return self;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
@@ -149,5 +146,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
-  rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 0);
 }
