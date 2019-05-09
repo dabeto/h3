@@ -71,13 +71,27 @@ my_malloc_release(VALUE self) {
 }
 
 static VALUE neighbors(VALUE h3, VALUE k){
-    H3Index indexed = h3;
+    VALUE h3ToString = rb_String(h3);
+    char *String2CStr = StringValueCStr(h3ToString);
+    H3Index indexed = stringToH3(String2CStr);
     int maxNeighboring = maxKringSize(k);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
 
-    VALUE r_array = rb_ary_new2(sizeof(H3Index));
-    return neighboring;
+    //VALUE r_array = rb_ary_new2(sizeof(H3Index));
+    //return neighboring;
+    printf("Neighbors:\n");
+      for (int i = 0; i < maxNeighboring; i++) {
+          // Some indexes may be 0 to indicate fewer than the maximum
+          // number of indexes.
+          if (neighboring[i] != 0) {
+              printf("%" PRIx64 "\n", neighboring[i]);
+          }
+      }
+
+      free(neighboring);
+
+      return self;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
