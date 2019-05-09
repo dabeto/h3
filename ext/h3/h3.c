@@ -92,9 +92,9 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
           }
       }
 
-      //free(neighboring);
+      free(neighboring);
 
-      return neighboring;
+      return r_array;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
