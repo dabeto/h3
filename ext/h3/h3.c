@@ -1,7 +1,9 @@
 #include <ruby.h>
+#include <r_array.h>
 #include <h3api.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <string.h>
 
 struct my_malloc {
   size_t size;
@@ -138,12 +140,37 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
     return r_hash;
   }
 
+
+  void remove_all_chars(char* str, char c) {
+      char *pr = str, *pw = str;
+      while (*pr) {
+          *pw = *pr++;
+          pw += (*pw != c);
+      }
+      *pw = '\0';
+  }
+
+
   static VALUE polyfill(VALUE self, VALUE polygon, VALUE resolution){
-    int maxNeighboring = maxKringSize(1000);
-    H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
-    GeoPolygon geoPolygon = polyfill(&polygon,resolution,neighboring);
-    VALUE r_hash = rb_hash_new();
-    return r_hash;
+  // Ensure the data passed is an array
+      Check_Type(v_array, T_ARRAY);
+      // Process the array
+      unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
+      for (unsigned int i = 0; i < array_size; ++i) {
+          VALUE v_internal_array = rb_ary_entry(v_array, i);
+          // Ensure the internal value is an array
+          Check_Type(v_internal_array, T_ARRAY);
+          // Process the internal array
+          unsigned int internal_array_size = (unsigned int)RARRAY_LEN(v_internal_array);
+          for (unsigned int j = 0; j < internal_array_size; ++j) {
+              VALUE v_res = rb_ary_entry(v_array, i);
+              int res = NUM2INT(v_res);
+              // Do something
+          }
+      }
+      // Return something (nil in this case)
+      return Qnil;
+
   }
 
 void
