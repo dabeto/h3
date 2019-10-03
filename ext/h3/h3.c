@@ -146,7 +146,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       // Process the array
       //unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
       for (unsigned int i = 0; i < 1; ++i) {
-          //VALUE v_internal_array = rb_ary_entry(v_array, i);
+          VALUE v_internal_array = rb_ary_entry(v_array, i);
           // Ensure the internal value is an array
           //Check_Type(v_internal_array, T_ARRAY);
           // Process the internal array
