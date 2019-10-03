@@ -805,3 +805,14 @@ void H3_EXPORT(h3SetToLinkedGeo)(const H3Index* h3Set, const int numHexes,
     normalizeMultiPolygon(out);
     destroyVertexGraph(&graph);
 }
+
+Init_algos(void) {
+  VALUE cMyMalloc;
+
+  cMyMalloc = rb_define_class("H3", rb_cObject);
+
+  rb_define_alloc_func(cMyMalloc, my_malloc_alloc);
+  rb_define_method(cMyMalloc, "initialize", my_malloc_init, 0);
+  rb_define_method(cMyMalloc, "free", my_malloc_release, 0);
+  rb_define_method(cMyMalloc, "polyfill", polyfill, 3);
+}
