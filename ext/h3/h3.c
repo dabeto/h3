@@ -146,7 +146,6 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       // Process the array
       unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
       GeoPolygon polygon;
-      printf("%" PRIx64 "\n", array_size);
       Geofence geofence = {.numVerts = array_size};
       GeoCoord fence[array_size];
       for (unsigned int i = 0; i < array_size; ++i) {
@@ -161,19 +160,21 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
               // Do something
           //}
           GeoCoord location;
+          printf("%" PRIx64 "\n", i);
             location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
             location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
+                        printf("%" PRIx64 "\n", location.lat);
+            printf("%" PRIx64 "\n", location.lon);
+
         fence[i] = location;
       }
       geofence.verts = fence;
       polygon.geofence = geofence;
-      printf("%" PRIx64 "\n", geofence.numVerts);
-printf("%" PRIx64 "\n", sizeof(geofence.verts));
   GeoPolygon multipolygon[1] ={polygon};
 
-    int maxNeighboring = maxPolyfillSize(multipolygon, resolution);
+    int maxNeighboring = maxPolyfillSize(multipolygon, NUM2INT(resolution));
     H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
-    polyfill(multipolygon, resolution, neighboring);
+    polyfill(multipolygon, NUM2INT(resolution), neighboring);
 
 
       VALUE r_array = rb_ary_new2(maxNeighboring);
