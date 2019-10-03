@@ -150,7 +150,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
   }
 
 
-  static VALUE polyfill(VALUE self, VALUE polygon, VALUE resolution){
+  static VALUE polyfill(VALUE self, VALUE v_array){
   // Ensure the data passed is an array
       Check_Type(v_array, T_ARRAY);
       // Process the array
@@ -185,5 +185,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
   rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
-  rb_define_method(cMyMalloc, "polyfill", polyfill, 2);
+  rb_define_method(cMyMalloc, "polyfill", polyfill, 1);
 }
