@@ -139,11 +139,11 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
   }
 
   static VALUE polyfill(VALUE self, VALUE polygon, VALUE resolution){
-    VALUE h3ToString = rb_String(h3);
     int maxNeighboring = maxKringSize(1000);
     H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
-    GeoPolygon geoPolygon = polyfill( &polygon,resolution,neighboring);
-    return geoPolygon;
+    GeoPolygon geoPolygon = polyfill(&polygon,resolution,neighboring);
+    VALUE r_hash = rb_hash_new();
+    return r_hash;
   }
 
 void
