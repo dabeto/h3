@@ -160,11 +160,8 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
               // Do something
           //}
           GeoCoord location;
-          printf("%" PRIx64 "\n", i);
             location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
             location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
-                        printf("%" PRIx64 "\n", location.lat);
-            printf("%" PRIx64 "\n", location.lon);
 
         fence[i] = location;
       }
@@ -178,7 +175,6 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
 
 
       VALUE r_array = rb_ary_new2(maxNeighboring);
-            //printf("Neighbors:\n");
             for (int i = 0; i < maxNeighboring; i++) {
                 // Some indexes may be 0 to indicate fewer than the maximum
                 // number of indexes.
@@ -186,7 +182,6 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
                   char str[20];
                   sprintf(str, "%" PRIx64, neighboring[i]);
                   rb_ary_push(r_array, rb_str_new2(str));
-                    printf("%" PRIx64 "\n", neighboring[i]);
                 }
             }
 
