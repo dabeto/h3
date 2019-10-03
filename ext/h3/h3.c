@@ -146,6 +146,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       // Process the array
       unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
       GeoPolygon polygon;
+      printf("%" PRIx64 "\n", array_size);
       Geofence geofence = {.numVerts = array_size};
       GeoCoord fence[array_size];
       for (unsigned int i = 0; i < array_size; ++i) {
