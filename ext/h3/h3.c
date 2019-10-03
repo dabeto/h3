@@ -140,30 +140,20 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
   }
 
 
-  void remove_all_chars(char* str, char c) {
-      char *pr = str, *pw = str;
-      while (*pr) {
-          *pw = *pr++;
-          pw += (*pw != c);
-      }
-      *pw = '\0';
-  }
-
-
   static VALUE polyfilling(VALUE self, VALUE v_array){
   // Ensure the data passed is an array
-      Check_Type(v_array, T_ARRAY);
+      //Check_Type(v_array, T_ARRAY);
       // Process the array
-      unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
-      for (unsigned int i = 0; i < array_size; ++i) {
-          VALUE v_internal_array = rb_ary_entry(v_array, i);
+      //unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
+      for (unsigned int i = 0; i < 1; ++i) {
+          //VALUE v_internal_array = rb_ary_entry(v_array, i);
           // Ensure the internal value is an array
-          Check_Type(v_internal_array, T_ARRAY);
+          //Check_Type(v_internal_array, T_ARRAY);
           // Process the internal array
-          unsigned int internal_array_size = (unsigned int)RARRAY_LEN(v_internal_array);
-          for (unsigned int j = 0; j < internal_array_size; ++j) {
-              VALUE v_res = rb_ary_entry(v_array, i);
-              int res = NUM2INT(v_res);
+          //unsigned int internal_array_size = (unsigned int)RARRAY_LEN(v_internal_array);
+          for (unsigned int j = 0; j < 2; ++j) {
+              //VALUE v_res = rb_ary_entry(v_array, i);
+              //int res = NUM2INT(v_res);
               // Do something
           }
       }
