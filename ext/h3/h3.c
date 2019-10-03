@@ -160,8 +160,8 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
               // Do something
           //}
           GeoCoord location;
-            location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
-            location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
+            location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
+            location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
         fence[i] = location;
       }
       geofence.verts = fence;
