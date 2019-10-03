@@ -183,7 +183,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
                   char str[20];
                   sprintf(str, "%" PRIx64, neighboring[i]);
                   rb_ary_push(r_array, rb_str_new2(str));
-                    //printf("%" PRIx64 "\n", neighboring[i]);
+                    printf("%" PRIx64 "\n", neighboring[i]);
                 //}
             }
 
