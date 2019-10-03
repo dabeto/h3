@@ -167,8 +167,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       geofence.verts = fence;
       polygon.geofence = geofence;
 
-      int max = k;
-          GeoPolygon multipolygon[1] ={polygon};
+  GeoPolygon multipolygon[1] ={polygon};
 
     int maxNeighboring = maxPolyfillSize(multipolygon, resolution);
     H3Index* neighboring = calloc(maxNeighboring, resolution);
