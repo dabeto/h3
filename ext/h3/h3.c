@@ -189,7 +189,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
 
             free(neighboring);
 
-            return rb_float_new(maxNeighboring);
+            return rb_float_new(sizeof(neighboring));
 
   }
 
