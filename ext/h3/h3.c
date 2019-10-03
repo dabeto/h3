@@ -182,12 +182,12 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
             for (int i = 0; i < maxNeighboring; i++) {
                 // Some indexes may be 0 to indicate fewer than the maximum
                 // number of indexes.
-                //if (neighboring[i] != 0) {
+                if (neighboring[i] != 0) {
                   char str[20];
                   sprintf(str, "%" PRIx64, neighboring[i]);
                   rb_ary_push(r_array, rb_str_new2(str));
                     printf("%" PRIx64 "\n", neighboring[i]);
-                //}
+                }
             }
 
             free(neighboring);
