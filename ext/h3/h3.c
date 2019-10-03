@@ -145,6 +145,8 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       //Check_Type(v_array, T_ARRAY);
       // Process the array
       unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
+      GeoPolygon polygon;
+      GeoCoord fence[array_size] = {};
       for (unsigned int i = 0; i < array_size; ++i) {
           VALUE v_internal_array = rb_ary_entry(v_array, i);
           // Ensure the internal value is an array
@@ -159,7 +161,9 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
           GeoCoord location;
             location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
             location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
+        fence[i] = location;
       }
+      polygon.Geofence = fence;
       // Return something (nil in this case)
       return Qnil;
 
