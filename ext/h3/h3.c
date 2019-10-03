@@ -170,7 +170,8 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       int max = k;
     int maxNeighboring = maxPolyfillSize(polygon, resolution);
     H3Index* neighboring = calloc(maxNeighboring, resolution);
-    polyfill(polygon, resolution, neighboring);
+    GeoPolygon multipolygon[1] ={polygon};
+    polyfill(multipolygon, resolution, neighboring);
 
 
       VALUE r_array = rb_ary_new2(maxNeighboring);
