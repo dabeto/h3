@@ -146,6 +146,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
       // Process the array
       unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
       GeoPolygon polygon;
+      Geofence geofence = {.numVerts = array_size};
       GeoCoord fence[array_size];
       for (unsigned int i = 0; i < array_size; ++i) {
           VALUE v_internal_array = rb_ary_entry(v_array, i);
@@ -163,7 +164,8 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
             location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
         fence[i] = location;
       }
-      polygon.geofence = (Geofence)fence;
+      geofence.verts = fence;
+
       // Return something (nil in this case)
       return Qnil;
 
