@@ -138,6 +138,14 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
     return r_hash;
   }
 
+  static VALUE polyfill(VALUE self, VALUE polygon, VALUE resolution){
+    VALUE h3ToString = rb_String(h3);
+    int maxNeighboring = maxKringSize(1000);
+    H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
+    GeoPolygon geoPolygon = polyfill( &polygon,resolution,neighboring);
+    return geoPolygon;
+  }
+
 void
 Init_h3(void) {
   VALUE cMyMalloc;
@@ -151,4 +159,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
   rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
+  rb_define_method(cMyMalloc, "polyfill", polyfill, 2);
 }
