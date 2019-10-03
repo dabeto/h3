@@ -144,18 +144,21 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
   // Ensure the data passed is an array
       //Check_Type(v_array, T_ARRAY);
       // Process the array
-      //unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
-      for (unsigned int i = 0; i < 1; ++i) {
+      unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
+      for (unsigned int i = 0; i < array_size; ++i) {
           VALUE v_internal_array = rb_ary_entry(v_array, i);
           // Ensure the internal value is an array
           //Check_Type(v_internal_array, T_ARRAY);
           // Process the internal array
           //unsigned int internal_array_size = (unsigned int)RARRAY_LEN(v_internal_array);
-          for (unsigned int j = 0; j < 2; ++j) {
+          //for (unsigned int j = 0; j < 2; ++j) {
               //VALUE v_res = rb_ary_entry(v_array, i);
               //int res = NUM2INT(v_res);
               // Do something
-          }
+          //}
+          GeoCoord location;
+            location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
+            location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
       }
       // Return something (nil in this case)
       return Qnil;
