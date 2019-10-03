@@ -1,5 +1,4 @@
 #include <ruby.h>
-#include <r_array.h>
 #include <h3api.h>
 #include <inttypes.h>
 #include <stdio.h>
