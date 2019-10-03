@@ -165,6 +165,7 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
         fence[i] = location;
       }
       geofence.verts = fence;
+      polygon.geofence = geofence;
 
       // Return something (nil in this case)
       return Qnil;
