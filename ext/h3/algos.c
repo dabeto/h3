@@ -148,6 +148,49 @@ static const Direction NEW_ADJUSTMENT_III[7][7] = {
     {CENTER_DIGIT, CENTER_DIGIT, IJ_AXES_DIGIT, CENTER_DIGIT, I_AXES_DIGIT,
      CENTER_DIGIT, IJ_AXES_DIGIT}};
 
+     struct my_malloc {
+       size_t size;
+       void *ptr;
+     };
+
+     static void
+     my_malloc_free(void *p) {
+
+     }
+
+     static VALUE
+     my_malloc_alloc(VALUE klass) {
+       VALUE obj;
+       struct my_malloc *ptr;
+
+       obj = Data_Make_Struct(klass, struct my_malloc, NULL, my_malloc_free, ptr);
+
+       ptr->size = 0;
+       ptr->ptr  = NULL;
+
+       return obj;
+     }
+
+     static VALUE
+     my_malloc_init(VALUE self) {
+       struct my_malloc *ptr;
+       size_t requested = 1024;
+
+       if (0 == requested)
+         rb_raise(rb_eArgError, "unable to allocate 0 bytes");
+
+       Data_Get_Struct(self, struct my_malloc, ptr);
+
+       ptr->ptr = malloc(requested);
+
+       if (NULL == ptr->ptr)
+         rb_raise(rb_eNoMemError, "unable to allocate %" PRIuSIZE " bytes", requested);
+
+       ptr->size = requested;
+
+       return self;
+     }
+
 /**
  * Maximum number of indices that result from the kRing algorithm with the given
  * k. Formula source and proof: https://oeis.org/A003215
@@ -807,5 +850,12 @@ void H3_EXPORT(h3SetToLinkedGeo)(const H3Index* h3Set, const int numHexes,
 }
 
 Init_algos(void) {
+  VALUE cMyMalloc;
+
+  cMyMalloc = rb_define_class("H3", rb_cObject);
+
+  rb_define_alloc_func(cMyMalloc, my_malloc_alloc);
+  rb_define_method(cMyMalloc, "initialize", my_malloc_init, 0);
+  rb_define_method(cMyMalloc, "free", my_malloc_release, 0);
   rb_define_method(cMyMalloc, "polyfill", polyfill, 3);
 }
