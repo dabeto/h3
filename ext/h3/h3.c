@@ -82,8 +82,6 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       kRing(indexed, k, neighboring);
       VALUE r_array = rb_ary_new2(maxNeighboring);
       //printf("Neighbors:\n");
-      int n = (max+1);
-      int max_hex = (3*n)*(n+1);
       for (int i = 0; i < maxNeighboring; i++) {
           // Some indexes may be 0 to indicate fewer than the maximum
           // number of indexes.
@@ -96,8 +94,8 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       }
 
       free(neighboring);
-      memcpy(a2, &r_array[max_hex], 2*sizeof(*a));
-      return a2;
+
+      return r_array;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
