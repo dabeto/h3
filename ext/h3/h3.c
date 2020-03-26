@@ -51,7 +51,7 @@ static VALUE
 my_malloc_release(VALUE self) {
   H3Index indexed = 0x8a2a1072b59ffffL;
   // Distance away from the origin to find:
-  int k = 1;
+  int k = 2;
 
   int maxNeighboring = maxKringSize(k);
   H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
@@ -77,7 +77,7 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       H3Index indexed = stringToH3(String2CStr);
       // Distance away from the origin to find:
       int max = k;
-      int maxNeighboring = maxKringSize(k);
+      int maxNeighboring = maxKringSize(k-1);
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
       VALUE r_array = rb_ary_new2(maxNeighboring);
