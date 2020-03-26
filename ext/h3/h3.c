@@ -212,4 +212,5 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
   rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
   rb_define_method(cMyMalloc, "polyfilling", polyfilling, 2);
+  rb_define_method(cMyMalloc, "sum_array", sum_array, 3);
 }
