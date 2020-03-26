@@ -70,10 +70,10 @@ my_malloc_release(VALUE self) {
 
   return self;
 }
-int sum_array(int* array, int first, int last) {
-    int res = 0;
+VALUE sum_array(int* array, int first, int last) {
+    VALUE r_array = rb_ary_new2(last);
     for (int i = first ; i <= last ; i++) {
-        res += array[i];
+        rb_ary_push(res, array[i]);
     }
     return res;
 }
@@ -102,7 +102,7 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       free(neighboring);
       int n = (max+1);
       int max_hex = (3*n)*(n+1);
-      return &r_array[max_hex];
+      return sum_array(r_array, 0,max_hex);
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
