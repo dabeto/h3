@@ -3,7 +3,7 @@
 Gem::Specification.new do |gem|
 
   gem.name        = 'h3'
-  gem.version     = '0.0.194'
+  gem.version     = '0.0.195'
   gem.authors     = 'Daniel Rodríguez'
   gem.email       = 'dabeto@gmail.com'
   gem.extensions  = ["ext/h3/extconf.rb"]
