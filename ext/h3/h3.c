@@ -51,7 +51,7 @@ static VALUE
 my_malloc_release(VALUE self) {
   H3Index indexed = 0x8a2a1072b59ffffL;
   // Distance away from the origin to find:
-  int k = 2;
+  int k = 1;
 
   int maxNeighboring = maxKringSize(k);
   H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
