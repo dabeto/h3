@@ -71,7 +71,7 @@ my_malloc_release(VALUE self) {
   return self;
 }
 VALUE sum_array(int* array, int first, int last) {
-    VALUE r_array = rb_ary_new2(last);
+    VALUE res = rb_ary_new2(last);
     for (int i = first ; i <= last ; i++) {
         rb_ary_push(res, array[i]);
     }
