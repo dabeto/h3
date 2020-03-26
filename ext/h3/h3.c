@@ -70,6 +70,7 @@ my_malloc_release(VALUE self) {
 
   return self;
 }
+
 static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
     VALUE h3ToString = rb_String(h3);
       char *String2CStr = StringValueCStr(h3ToString);
@@ -80,6 +81,9 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
       VALUE r_array = rb_ary_new2(maxNeighboring);
+      int n = (max+1);
+      int max_hex = (3*n)*(n+1);
+      int j = 0;
       //printf("Neighbors:\n");
       for (int i = 0; i < maxNeighboring; i++) {
           // Some indexes may be 0 to indicate fewer than the maximum
@@ -87,20 +91,17 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
           if (neighboring[i] != 0) {
             char str[20];
             sprintf(str, "%" PRIx64, neighboring[i]);
-            rb_ary_push(r_array, rb_str_new2(str));
+            if(j <= max_hex){
+                j++;
+                rb_ary_push(r_array, rb_str_new2(str));
+            }
               //printf("%" PRIx64 "\n", neighboring[i]);
           }
       }
 
       free(neighboring);
-      int n = (max+1);
-      int max_hex = (3*n)*(n+1);
-      VALUE res = rb_ary_new2(maxNeighboring);
-      for (int i = 0 ; i <= max_hex ; i++) {
-          rb_ary_push(res, array[i]);
-      }
 
-      return res;
+      return r_array;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
