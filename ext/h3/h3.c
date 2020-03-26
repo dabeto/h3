@@ -81,27 +81,23 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
       kRing(indexed, k, neighboring);
       VALUE r_array = rb_ary_new2(maxNeighboring);
+      //printf("Neighbors:\n");
       int n = (max+1);
       int max_hex = (3*n)*(n+1);
-      int j = 0;
-      //printf("Neighbors:\n");
       for (int i = 0; i < maxNeighboring; i++) {
           // Some indexes may be 0 to indicate fewer than the maximum
           // number of indexes.
           if (neighboring[i] != 0) {
             char str[20];
             sprintf(str, "%" PRIx64, neighboring[i]);
-            if(j <= max_hex){
-                j++;
-                rb_ary_push(r_array, rb_str_new2(str));
-            }
+            rb_ary_push(r_array, rb_str_new2(str));
               //printf("%" PRIx64 "\n", neighboring[i]);
           }
       }
 
       free(neighboring);
-
-      return r_array;
+      memcpy(a2, &r_array[max_hex], 2*sizeof(*a));
+      return a2;
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
