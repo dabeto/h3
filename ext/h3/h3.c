@@ -102,7 +102,7 @@ static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
       free(neighboring);
       int n = (max+1);
       int max_hex = (3*n)*(n+1);
-      return sum_array(r_array, 0,max_hex);
+      return &r_array[max_hex];
 }
 
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
