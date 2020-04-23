@@ -2,6 +2,7 @@
 #include <h3api.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <string.h>
 
 struct my_malloc {
   size_t size;
@@ -70,6 +71,33 @@ my_malloc_release(VALUE self) {
   return self;
 }
 
+static VALUE neighbors(VALUE self, VALUE k, VALUE h3){
+    VALUE h3ToString = rb_String(h3);
+      char *String2CStr = StringValueCStr(h3ToString);
+      H3Index indexed = stringToH3(String2CStr);
+      // Distance away from the origin to find:
+      int max = k;
+      int maxNeighboring = maxKringSize(k);
+      H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
+      kRing(indexed, k, neighboring);
+      VALUE r_array = rb_ary_new2(maxNeighboring);
+      //printf("Neighbors:\n");
+      for (int i = 0; i < maxNeighboring; i++) {
+          // Some indexes may be 0 to indicate fewer than the maximum
+          // number of indexes.
+          if (neighboring[i] != 0) {
+            char str[20];
+            sprintf(str, "%" PRIx64, neighboring[i]);
+            rb_ary_push(r_array, rb_str_new2(str));
+              //printf("%" PRIx64 "\n", neighboring[i]);
+          }
+      }
+
+      free(neighboring);
+
+      return r_array;
+}
+
 static VALUE geo_to_h3(VALUE self, VALUE latlonRes) {
   GeoCoord location;
   location.lat = degsToRads(rb_num2dbl(rb_ary_entry(latlonRes, 0)));
@@ -111,6 +139,58 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
     return r_hash;
   }
 
+
+  static VALUE polyfilling(VALUE self, VALUE v_array, VALUE resolution){
+  // Ensure the data passed is an array
+      //Check_Type(v_array, T_ARRAY);
+      // Process the array
+      unsigned int array_size = (unsigned int)RARRAY_LEN(v_array);
+      GeoPolygon polygon;
+      Geofence geofence = {.numVerts = array_size};
+      GeoCoord fence[array_size];
+      for (unsigned int i = 0; i < array_size; ++i) {
+          VALUE v_internal_array = rb_ary_entry(v_array, i);
+          // Ensure the internal value is an array
+          //Check_Type(v_internal_array, T_ARRAY);
+          // Process the internal array
+          //unsigned int internal_array_size = (unsigned int)RARRAY_LEN(v_internal_array);
+          //for (unsigned int j = 0; j < 2; ++j) {
+              //VALUE v_res = rb_ary_entry(v_array, i);
+              //int res = NUM2INT(v_res);
+              // Do something
+          //}
+          GeoCoord location;
+            location.lat = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 1)));
+            location.lon = degsToRads(rb_num2dbl(rb_ary_entry(v_internal_array, 0)));
+
+        fence[i] = location;
+      }
+      geofence.verts = fence;
+      polygon.geofence = geofence;
+  GeoPolygon multipolygon[1] ={polygon};
+
+    int maxNeighboring = maxPolyfillSize(multipolygon, NUM2INT(resolution));
+    H3Index* neighboring = calloc(maxNeighboring, sizeof(H3Index));
+    polyfill(multipolygon, NUM2INT(resolution), neighboring);
+
+
+      VALUE r_array = rb_ary_new2(maxNeighboring);
+            for (int i = 0; i < maxNeighboring; i++) {
+                // Some indexes may be 0 to indicate fewer than the maximum
+                // number of indexes.
+                if (neighboring[i] != 0) {
+                  char str[20];
+                  sprintf(str, "%" PRIx64, neighboring[i]);
+                  rb_ary_push(r_array, rb_str_new2(str));
+                }
+            }
+
+            free(neighboring);
+
+            return r_array;
+
+  }
+
 void
 Init_h3(void) {
   VALUE cMyMalloc;
@@ -123,4 +203,6 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
+  rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
+  rb_define_method(cMyMalloc, "polyfilling", polyfilling, 2);
 }
