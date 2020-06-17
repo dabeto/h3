@@ -191,6 +191,15 @@ static VALUE h3_to_geo_boundary(VALUE self, VALUE h3) {
 
   }
 
+// GETS HEXAGON RESOLUTION
+static VALUE h3_resolution(VALUE self, VALUE h3) {
+  VALUE h3ToString = rb_String(h3);
+  char *String2CStr = StringValueCStr(h3ToString);
+  H3Index indexed = stringToH3(String2CStr);
+  int resolution = h3GetResolution(indexed);
+  return INT2NUM(resolution);
+}
+
 void
 Init_h3(void) {
   VALUE cMyMalloc;
@@ -203,6 +212,7 @@ Init_h3(void) {
   rb_define_method(cMyMalloc, "geo_to_h3", geo_to_h3, 1);
   rb_define_method(cMyMalloc, "h3_to_geo_boundary", h3_to_geo_boundary, 1);
   rb_define_method(cMyMalloc, "h3_to_geo", h3_to_geo, 1);
+  rb_define_method(cMyMalloc, "h3_resolution", h3_resolution, 1);
   rb_define_method(cMyMalloc, "neighbors", neighbors, 2);
   rb_define_method(cMyMalloc, "polyfilling", polyfilling, 2);
 }
